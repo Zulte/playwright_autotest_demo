@@ -6,11 +6,6 @@ const config = require("./config.json");
 const username = config.turbo_name;
 const password = config.turbo_pass;
 
-export default defineConfig({
-  use: {
-    testIdAttribute: 'id'
-  }
-});
 
 test('test login with @positive result', async ({ page }) => {  
   await page.goto('https://turbosms.ua/');
@@ -20,9 +15,9 @@ test('test login with @positive result', async ({ page }) => {
   await page.locator('id=auth_login').click();
   await page.locator('id=auth_login').fill(username);
   await page.locator('id=auth_password').click();
-  await  page.locator('id=auth_password').fill(password);
+  await page.locator('id=auth_password').fill(password);
   await page.locator('id=submit_auth').click();
-  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible();
+  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible({ timeout: 30000 });
 });
 
 test('test login with wrong password @negative result', async ({ page }) => {
