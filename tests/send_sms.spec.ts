@@ -74,3 +74,27 @@ test('send sms without number or with wrong number @negative', async ({ page }) 
   await page.getByRole('button', { name: 'Просмотреть сообщение' }).click();
   await expect(page.getByText('Введите правильный номер получателя в международном формате (только цифры)')).toBeVisible();
 });
+
+
+test('send sms without text @negative', async ({ page }) => {
+  await page.goto('https://turbosms.ua/');
+  await expect(page.getByAltText('TurboSMS')).toHaveClass('header__logo')
+  await page.getByRole('link', { name: 'Вход' }).click();
+  await expect(page.locator('id=submit_auth')).toBeVisible();
+  await page.locator('id=auth_login').click();
+  await page.locator('id=auth_login').fill(username);
+  await page.locator('id=auth_password').click();
+  await page.locator('id=auth_password').fill(password);
+  await page.locator('id=submit_auth').click();
+  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible();
+  await page.getByRole('link', { name: 'Отправить SMS' }).click();
+  await expect(page.getByRole('link', { name: 'TAXI' })).toBeVisible();
+  await page.getByRole('link', { name: 'TAXI' }).click();
+  await page.locator('#select2-result-label-9').click();
+  await expect(page.getByRole('link', { name: 'MAGAZIN' })).toBeVisible();
+  await expect(page.getByText('Номера получателей в международном формате, например 380672316939(не более 3')).toBeVisible();
+  await page.getByText('Номера получателей в международном формате, например 380672316939(не более 3').click();
+  await page.getByLabel('Номера получателей в международном формате, например 380672316939(не более 3').fill('380666118336');
+  await page.getByRole('button', { name: 'Просмотреть сообщение' }).click();
+  await expect(page.getByText('Введите текст или WAPPush')).toBeVisible();
+});
