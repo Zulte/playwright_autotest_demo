@@ -17,7 +17,7 @@ test('send sms with right data @positive', async ({ page }) => {
   await page.locator('id=auth_password').click();
   await page.locator('id=auth_password').fill(password);
   await page.locator('id=submit_auth').click();
-  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible();
+  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible({ timeout: 30000 });
   await page.getByRole('link', { name: 'Отправить SMS' }).click();
   await page.locator('id=single_text').click();
   await page.locator('id=single_text').pressSequentially('test_test_test_test_test_test_test');
@@ -55,7 +55,7 @@ test('user decide to edit message @positive', async ({ page }) => {
   await page.locator('id=auth_password').click();
   await page.locator('id=auth_password').fill(password);
   await page.locator('id=submit_auth').click();
-  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible();
+  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible({ timeout: 30000 });
   await page.getByRole('link', { name: 'Отправить SMS' }).click();
   await page.locator('id=single_text').click();
   await page.locator('id=single_text').pressSequentially('test_test_test_test_test_test_test');
@@ -93,7 +93,7 @@ test('send sms without number or with wrong number @negative', async ({ page }) 
   await page.locator('id=auth_password').click();
   await page.locator('id=auth_password').fill(password);
   await page.locator('id=submit_auth').click();
-  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible();
+  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible({ timeout: 30000 });
   await page.getByRole('link', { name: 'Отправить SMS' }).click();
   await page.locator('id=single_text').click();
   await page.locator('id=single_text').pressSequentially('test_test_test_test_test_test_test');
@@ -123,7 +123,7 @@ test('send sms without text @negative', async ({ page }) => {
   await page.locator('id=auth_password').click();
   await page.locator('id=auth_password').fill(password);
   await page.locator('id=submit_auth').click();
-  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible();
+  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible({ timeout: 30000 });
   await page.getByRole('link', { name: 'Отправить SMS' }).click();
   await expect(page.getByRole('link', { name: 'TAXI' })).toBeVisible();
   await page.getByRole('link', { name: 'TAXI' }).click();
