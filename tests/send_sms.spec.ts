@@ -1,5 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page, Locator } from '@playwright/test';
 import { defineConfig } from '@playwright/test';
+import {LoginToAccount} from './login_test.spec'
 
 const config = require("./config.json");
 
@@ -7,17 +8,16 @@ const username = config.turbo_name;
 const password = config.turbo_pass;
 
 
+
 test('send sms with right data @positive', async ({ page }) => {
-  await page.goto('https://turbosms.ua/');
-  await expect(page.getByAltText('TurboSMS')).toHaveClass('header__logo')
-  await page.getByRole('link', { name: 'Вход' }).click();
-  await expect(page.locator('id=submit_auth')).toBeVisible();
-  await page.locator('id=auth_login').click();
-  await page.locator('id=auth_login').fill(username);
-  await page.locator('id=auth_password').click();
-  await page.locator('id=auth_password').fill(password);
-  await page.locator('id=submit_auth').click();
-  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible({ timeout: 30000 });
+  const loginpage = new LoginToAccount(page)
+  //login
+  await loginpage.goto()
+  await loginpage.GetToForm()
+  await loginpage.FillForm(username, password)
+  await loginpage.LoginToAccount()
+
+
   await page.getByRole('link', { name: 'Отправить SMS' }).click();
   await page.locator('id=single_text').click();
   await page.locator('id=single_text').pressSequentially('test_test_test_test_test_test_test');
@@ -46,16 +46,14 @@ test('send sms with right data @positive', async ({ page }) => {
 });
 
 test('user decide to edit message @positive', async ({ page }) => {
-  await page.goto('https://turbosms.ua/');
-  await expect(page.getByAltText('TurboSMS')).toHaveClass('header__logo')
-  await page.getByRole('link', { name: 'Вход' }).click();
-  await expect(page.locator('id=submit_auth')).toBeVisible();
-  await page.locator('id=auth_login').click();
-  await page.locator('id=auth_login').fill(username);
-  await page.locator('id=auth_password').click();
-  await page.locator('id=auth_password').fill(password);
-  await page.locator('id=submit_auth').click();
-  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible({ timeout: 30000 });
+  const loginpage = new LoginToAccount(page)
+  //login
+  await loginpage.goto()
+  await loginpage.GetToForm()
+  await loginpage.FillForm(username, password)
+  await loginpage.LoginToAccount()
+
+
   await page.getByRole('link', { name: 'Отправить SMS' }).click();
   await page.locator('id=single_text').click();
   await page.locator('id=single_text').pressSequentially('test_test_test_test_test_test_test');
@@ -84,16 +82,14 @@ test('user decide to edit message @positive', async ({ page }) => {
 });
 
 test('send sms without number or with wrong number @negative', async ({ page }) => {
-  await page.goto('https://turbosms.ua/');
-  await expect(page.getByAltText('TurboSMS')).toHaveClass('header__logo')
-  await page.getByRole('link', { name: 'Вход' }).click();
-  await expect(page.locator('id=submit_auth')).toBeVisible();
-  await page.locator('id=auth_login').click();
-  await page.locator('id=auth_login').fill(username);
-  await page.locator('id=auth_password').click();
-  await page.locator('id=auth_password').fill(password);
-  await page.locator('id=submit_auth').click();
-  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible({ timeout: 30000 });
+  const loginpage = new LoginToAccount(page)
+  //login
+  await loginpage.goto()
+  await loginpage.GetToForm()
+  await loginpage.FillForm(username, password)
+  await loginpage.LoginToAccount()
+
+
   await page.getByRole('link', { name: 'Отправить SMS' }).click();
   await page.locator('id=single_text').click();
   await page.locator('id=single_text').pressSequentially('test_test_test_test_test_test_test');
@@ -115,15 +111,14 @@ test('send sms without number or with wrong number @negative', async ({ page }) 
 
 test('send sms without text @negative', async ({ page }) => {
   await page.goto('https://turbosms.ua/');
-  await expect(page.getByAltText('TurboSMS')).toHaveClass('header__logo')
-  await page.getByRole('link', { name: 'Вход' }).click();
-  await expect(page.locator('id=submit_auth')).toBeVisible();
-  await page.locator('id=auth_login').click();
-  await page.locator('id=auth_login').fill(username);
-  await page.locator('id=auth_password').click();
-  await page.locator('id=auth_password').fill(password);
-  await page.locator('id=submit_auth').click();
-  await expect(page.getByText('Вы вошли в систему как «')).toBeVisible({ timeout: 30000 });
+  //login
+  const loginpage = new LoginToAccount(page)
+  await loginpage.goto()
+  await loginpage.GetToForm()
+  await loginpage.FillForm(username, password)
+  await loginpage.LoginToAccount()
+
+  //Go to page for send and create SMS
   await page.getByRole('link', { name: 'Отправить SMS' }).click();
   await expect(page.getByRole('link', { name: 'TAXI' })).toBeVisible();
   await page.getByRole('link', { name: 'TAXI' }).click();
